@@ -4,29 +4,37 @@
 
 这是 `figma-cli` 的公开分发仓。
 
-这里发布自包含 fat jar、SHA-256 checksum 和 CLI 使用说明。`figma-cli` 是确定性的 Figma REST 导出命令行工具：
-读取设计稿 raw 节点，转换成平台无关的 ViewTree IR，并落盘截图、资源等可核验证据。
+这里发布原生单文件二进制、SHA-256 checksum 和 CLI 使用说明。`figma-cli` 是确定性的 Figma REST 导出
+命令行工具：读取设计稿 raw 节点，转换成平台无关的 ViewTree IR，并落盘截图、资源等可核验证据。
+二进制由 GraalVM native-image 编译，**不需要安装 Java**。
 
 ## 当前版本
 
-- Version: `0.1.4`
-- Jar: [`figma-cli-0.1.4-all.jar`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.4/figma-cli-0.1.4-all.jar)
-- Checksum: [`figma-cli-0.1.4-all.jar.sha256`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.4/figma-cli-0.1.4-all.jar.sha256)
-- SHA-256: `bb7eb296d12cfbf1553801338fe1700823c3a82820ef9305163a3b01a16e22ea`
-
-## 前置条件
-
-- Java 17 或更高版本。
-- Figma Personal Access Token，并授予 `File content read`、`File images read` 权限。
+- Version: `0.1.5`
+- darwin-arm64 (macOS Apple Silicon): [`figma-cli-darwin-arm64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.5/figma-cli-darwin-arm64)（SHA-256: `3a6986c384dbd0566ca06404c80d39aff117cf314e0d9b636dd98552d2716206`）
+- linux-x64: [`figma-cli-linux-x64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.5/figma-cli-linux-x64)（SHA-256: `79565b7913856fc0689fa3bfb4ad3591e33d9779f711efc5a2beb622ea142c9c`）
 
 ## 安装
 
-下载当前版本的 jar 和 checksum，并校验完整性：
+下载对应平台的二进制并校验（以 macOS Apple Silicon 为例）：
 
 ```bash
-curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.4/figma-cli-0.1.4-all.jar
-curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.4/figma-cli-0.1.4-all.jar.sha256
-shasum -a 256 -c figma-cli-0.1.4-all.jar.sha256
+curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.5/figma-cli-darwin-arm64
+curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.5/figma-cli-darwin-arm64.sha256
+shasum -a 256 -c figma-cli-darwin-arm64.sha256
+chmod +x figma-cli-darwin-arm64
+```
+
+放入 PATH 即可（可选）：
+
+```bash
+mkdir -p ~/.local/bin && mv figma-cli-darwin-arm64 ~/.local/bin/figma-cli
+```
+
+首次运行 macOS 可能提示 Gatekeeper 拦截（未公证二进制），执行：
+
+```bash
+xattr -d com.apple.quarantine ~/.local/bin/figma-cli
 ```
 
 token 只从环境变量 `FIGMA_TOKEN` 读取，不接受命令行参数：
@@ -39,13 +47,13 @@ export FIGMA_TOKEN="figd_xxx"
 
 ```bash
 # 顶层与子命令 help 是参数、默认值和输出契约的唯一事实源
-java -jar figma-cli-0.1.4-all.jar --help
+figma-cli --help
 
 # 访问 Figma 前先检查本地运行环境；不访问网络，但会检查 FIGMA_TOKEN 是否已设置
-java -jar figma-cli-0.1.4-all.jar doctor
+figma-cli doctor
 
 # 一次导出 raw、ViewTree IR、截图、截图元数据、资源 manifest 与资源目录
-java -jar figma-cli-0.1.4-all.jar pull "https://www.figma.com/design/<file-key>/<file-name>?node-id=<node-id>" --output <case-dir>
+figma-cli pull "https://www.figma.com/design/<file-key>/<file-name>?node-id=<node-id>" --output <case-dir>
 ```
 
 ## 命令
