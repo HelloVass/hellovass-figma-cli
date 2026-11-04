@@ -44,6 +44,28 @@ The token is read only from the `FIGMA_TOKEN` environment variable, never from c
 export FIGMA_TOKEN="figd_xxx"
 ```
 
+## Upgrade
+
+Replacing the binary does **not** update an already installed Skill; both steps are required:
+
+```bash
+# 1. Download, verify, and replace the binary (macOS Apple Silicon, 0.1.6 shown)
+VERSION=0.1.6
+gh release download "v$VERSION" -R HelloVass/hellovass-figma-cli \
+  -p figma-cli-darwin-arm64 -p figma-cli-darwin-arm64.sha256 -D /tmp
+(cd /tmp && shasum -a 256 -c figma-cli-darwin-arm64.sha256)
+install -m 755 /tmp/figma-cli-darwin-arm64 ~/.local/bin/figma-cli
+
+# 2. Refresh the bundled Skill, or agents keep reading the old instructions
+figma-cli skills add figma-cli --target ~/.claude/skills --force
+```
+
+- Pick the target directory for your host: `~/.claude/skills` for Claude Code; omit `--target` for Codex
+  (defaults to `$CODEX_HOME/skills`, then `~/.codex/skills`).
+- An existing Skill directory requires an explicit `--force`; if it holds unknown files, the CLI refuses to
+  overwrite and never deletes your custom content.
+- Verify: `figma-cli --version` reports the new version and `figma-cli skills list` shows the target as installed.
+
 ## Quick Start
 
 ```bash
