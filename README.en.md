@@ -11,17 +11,17 @@ with GraalVM native-image and **require no Java runtime**.
 
 ## Current Version
 
-- Version: `0.1.5`
-- darwin-arm64 (macOS Apple Silicon): [`figma-cli-darwin-arm64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.5/figma-cli-darwin-arm64) (SHA-256: `3a6986c384dbd0566ca06404c80d39aff117cf314e0d9b636dd98552d2716206`)
-- linux-x64: [`figma-cli-linux-x64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.5/figma-cli-linux-x64) (SHA-256: `79565b7913856fc0689fa3bfb4ad3591e33d9779f711efc5a2beb622ea142c9c`)
+- Version: `0.1.6`
+- darwin-arm64 (macOS Apple Silicon): [`figma-cli-darwin-arm64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64) (SHA-256: `218505908842a3e47f7d1d2ae618c28d23f95eb2c3cbbd95e539761fea745651`)
+- linux-x64: [`figma-cli-linux-x64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-linux-x64) (SHA-256: `f9a0730ee4905c48f3dbfec1acefbcc288ae1dc6a1ba5a9e092e9dac85e355f7`)
 
 ## Installation
 
 Download the binary for your platform and verify it (macOS Apple Silicon shown):
 
 ```bash
-curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.5/figma-cli-darwin-arm64
-curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.5/figma-cli-darwin-arm64.sha256
+curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64
+curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64.sha256
 shasum -a 256 -c figma-cli-darwin-arm64.sha256
 chmod +x figma-cli-darwin-arm64
 ```
