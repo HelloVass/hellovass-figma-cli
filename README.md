@@ -10,17 +10,17 @@
 
 ## 当前版本
 
-- Version: `0.1.6`
-- darwin-arm64 (macOS Apple Silicon): [`figma-cli-darwin-arm64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64)（SHA-256: `218505908842a3e47f7d1d2ae618c28d23f95eb2c3cbbd95e539761fea745651`）
-- linux-x64: [`figma-cli-linux-x64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-linux-x64)（SHA-256: `f9a0730ee4905c48f3dbfec1acefbcc288ae1dc6a1ba5a9e092e9dac85e355f7`）
+- Version: `0.1.7`
+- darwin-arm64 (macOS Apple Silicon): [`figma-cli-darwin-arm64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.7/figma-cli-darwin-arm64)（SHA-256: `58edfaeafb446079150cf116244b58432c4f93ee804f77bdeef951998e8cfc46`）
+- linux-x64: [`figma-cli-linux-x64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.7/figma-cli-linux-x64)（SHA-256: `200f28109a0e356a090e906b0ecfd1d9e64d2aed6db40917f31b5d460f1d0da7`）
 
 ## 安装
 
 下载对应平台的二进制并校验（以 macOS Apple Silicon 为例）：
 
 ```bash
-curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64
-curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64.sha256
+curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.7/figma-cli-darwin-arm64
+curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.7/figma-cli-darwin-arm64.sha256
 shasum -a 256 -c figma-cli-darwin-arm64.sha256
 chmod +x figma-cli-darwin-arm64
 ```
@@ -42,27 +42,6 @@ token 只从环境变量 `FIGMA_TOKEN` 读取，不接受命令行参数：
 ```bash
 export FIGMA_TOKEN="figd_xxx"
 ```
-
-## 升级
-
-换二进制**不会**自动更新已安装的 Skill，两步都要做：
-
-```bash
-# 1. 下载、校验并替换二进制（以 macOS Apple Silicon、0.1.6 为例）
-VERSION=0.1.6
-gh release download "v$VERSION" -R HelloVass/hellovass-figma-cli \
-  -p figma-cli-darwin-arm64 -p figma-cli-darwin-arm64.sha256 -D /tmp
-(cd /tmp && shasum -a 256 -c figma-cli-darwin-arm64.sha256)
-install -m 755 /tmp/figma-cli-darwin-arm64 ~/.local/bin/figma-cli
-
-# 2. 刷新随包 Skill，否则 agent 读到的仍是旧版说明
-figma-cli skills add figma-cli --target ~/.claude/skills --force
-```
-
-- 第 2 步的目标目录按宿主工具选：Claude Code 用 `~/.claude/skills`，Codex 省略 `--target`（默认
-  `$CODEX_HOME/skills`，未设置时 `~/.codex/skills`）。
-- 已存在的 Skill 目录必须显式传 `--force`；目录里含未知文件时 CLI 会拒绝覆盖，不会误删自定义内容。
-- 校验：`figma-cli --version` 输出新版本，`figma-cli skills list` 中对应目录显示已安装。
 
 ## 快速开始
 

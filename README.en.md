@@ -11,17 +11,17 @@ with GraalVM native-image and **require no Java runtime**.
 
 ## Current Version
 
-- Version: `0.1.6`
-- darwin-arm64 (macOS Apple Silicon): [`figma-cli-darwin-arm64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64) (SHA-256: `218505908842a3e47f7d1d2ae618c28d23f95eb2c3cbbd95e539761fea745651`)
-- linux-x64: [`figma-cli-linux-x64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-linux-x64) (SHA-256: `f9a0730ee4905c48f3dbfec1acefbcc288ae1dc6a1ba5a9e092e9dac85e355f7`)
+- Version: `0.1.7`
+- darwin-arm64 (macOS Apple Silicon): [`figma-cli-darwin-arm64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.7/figma-cli-darwin-arm64) (SHA-256: `58edfaeafb446079150cf116244b58432c4f93ee804f77bdeef951998e8cfc46`)
+- linux-x64: [`figma-cli-linux-x64`](https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.7/figma-cli-linux-x64) (SHA-256: `200f28109a0e356a090e906b0ecfd1d9e64d2aed6db40917f31b5d460f1d0da7`)
 
 ## Installation
 
 Download the binary for your platform and verify it (macOS Apple Silicon shown):
 
 ```bash
-curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64
-curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.6/figma-cli-darwin-arm64.sha256
+curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.7/figma-cli-darwin-arm64
+curl -fLO https://github.com/HelloVass/hellovass-figma-cli/releases/download/v0.1.7/figma-cli-darwin-arm64.sha256
 shasum -a 256 -c figma-cli-darwin-arm64.sha256
 chmod +x figma-cli-darwin-arm64
 ```
@@ -43,28 +43,6 @@ The token is read only from the `FIGMA_TOKEN` environment variable, never from c
 ```bash
 export FIGMA_TOKEN="figd_xxx"
 ```
-
-## Upgrade
-
-Replacing the binary does **not** update an already installed Skill; both steps are required:
-
-```bash
-# 1. Download, verify, and replace the binary (macOS Apple Silicon, 0.1.6 shown)
-VERSION=0.1.6
-gh release download "v$VERSION" -R HelloVass/hellovass-figma-cli \
-  -p figma-cli-darwin-arm64 -p figma-cli-darwin-arm64.sha256 -D /tmp
-(cd /tmp && shasum -a 256 -c figma-cli-darwin-arm64.sha256)
-install -m 755 /tmp/figma-cli-darwin-arm64 ~/.local/bin/figma-cli
-
-# 2. Refresh the bundled Skill, or agents keep reading the old instructions
-figma-cli skills add figma-cli --target ~/.claude/skills --force
-```
-
-- Pick the target directory for your host: `~/.claude/skills` for Claude Code; omit `--target` for Codex
-  (defaults to `$CODEX_HOME/skills`, then `~/.codex/skills`).
-- An existing Skill directory requires an explicit `--force`; if it holds unknown files, the CLI refuses to
-  overwrite and never deletes your custom content.
-- Verify: `figma-cli --version` reports the new version and `figma-cli skills list` shows the target as installed.
 
 ## Quick Start
 
