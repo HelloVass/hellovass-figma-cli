@@ -43,6 +43,27 @@ token 只从环境变量 `FIGMA_TOKEN` 读取，不接受命令行参数：
 export FIGMA_TOKEN="figd_xxx"
 ```
 
+## 升级
+
+换二进制**不会**自动更新已安装的 Skill，两步都要做：
+
+```bash
+# 1. 下载、校验并替换二进制（以 macOS Apple Silicon、0.1.6 为例）
+VERSION=0.1.6
+gh release download "v$VERSION" -R HelloVass/hellovass-figma-cli \
+  -p figma-cli-darwin-arm64 -p figma-cli-darwin-arm64.sha256 -D /tmp
+(cd /tmp && shasum -a 256 -c figma-cli-darwin-arm64.sha256)
+install -m 755 /tmp/figma-cli-darwin-arm64 ~/.local/bin/figma-cli
+
+# 2. 刷新随包 Skill，否则 agent 读到的仍是旧版说明
+figma-cli skills add figma-cli --target ~/.claude/skills --force
+```
+
+- 第 2 步的目标目录按宿主工具选：Claude Code 用 `~/.claude/skills`，Codex 省略 `--target`（默认
+  `$CODEX_HOME/skills`，未设置时 `~/.codex/skills`）。
+- 已存在的 Skill 目录必须显式传 `--force`；目录里含未知文件时 CLI 会拒绝覆盖，不会误删自定义内容。
+- 校验：`figma-cli --version` 输出新版本，`figma-cli skills list` 中对应目录显示已安装。
+
 ## 快速开始
 
 ```bash
